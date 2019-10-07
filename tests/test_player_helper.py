@@ -1,6 +1,6 @@
 import unittest
 
-from playerhelper.playerhelper import PlayerHelper
+from playerhelper.player_helper import PlayerHelper
 
 
 class TestPlayerHelper(unittest.TestCase):

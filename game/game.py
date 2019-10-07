@@ -1,4 +1,4 @@
-from playerhelper.playerhelper import PlayerHelper
+from playerhelper.player_helper import PlayerHelper
 from board.board import Board
 from position.position import Position
 
