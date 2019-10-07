@@ -1,17 +1,17 @@
-from board.board import BoardImpl
+from board.board import IBoard
 from position.position import Position
 
 
-class PlayerHelperImpl:
-    def select(self, board: BoardImpl) -> Position:
+class IPlayerHelper:
+    def select(self, board: IBoard) -> Position:
         raise NotImplementedError()
 
     def swap(self):
         raise NotImplementedError()
 
 
-class PlayerHelper(PlayerHelperImpl):
-    def select(self, board: BoardImpl) -> Position:
+class PlayerHelper(IPlayerHelper):
+    def select(self, board: IBoard) -> Position:
         return Position()
 
     def swap(self):

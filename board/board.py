@@ -2,7 +2,7 @@ from stone.stone import Stone
 from position.position import Position
 
 
-class BoardImpl:
+class IBoard:
     def put_stone(self, stone: Stone, position: Position):
         raise NotImplementedError()
 
@@ -10,7 +10,7 @@ class BoardImpl:
         raise NotImplementedError()
 
 
-class Board(BoardImpl):
+class Board(IBoard):
     def put_stone(self, stone: Stone, position: Position):
         pass
 
