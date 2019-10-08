@@ -28,7 +28,7 @@ class Board(IBoard):
     """
 
     SIZE = 4
-    TIME_MAX = SIZE**2
+    TIME_MAX = SIZE**2 - 4
 
     def __init__(self):
         self.time: int = 0
@@ -44,7 +44,20 @@ class Board(IBoard):
         for x, y, stone in first_stones:
             self.data[x][y] = stone
 
+    def show(self):
+        mark = {None: ".", Stone.BLACK: "x", Stone.WHITE: "o"}
+        for row in self.data:
+            print("".join([mark[s] for s in row]))
+        print()
+
+    def pass_turn(self):
+        self.time += 1
+
+        print("time:", self.time)
+        self.show()
+
     def put_stone(self, stone: Stone, position: Position):
+        assert position is not None
         assert self.get_stone(position) is None
         assert self.time < self.TIME_MAX
 
@@ -57,8 +70,24 @@ class Board(IBoard):
 
         self.time += 1
 
+        print("time:", self.time)
+        self.show()
+
     def finished(self) -> bool:
         return self.time == self.TIME_MAX
+
+    def get_winner_stone(self) -> Optional[Stone]:
+        """
+        勝者の石を返す
+        引き分けの場合はNoneを返す
+        """
+        flat = [stone for row in self.data for stone in row]
+        if flat.count(Stone.BLACK) > flat.count(Stone.WHITE):
+            return Stone.BLACK
+        elif flat.count(Stone.WHITE) > flat.count(Stone.BLACK):
+            return Stone.WHITE
+        else:
+            return None
 
     def get_stone(self, position: Position) -> Optional[Stone]:
         return self.data[position.x][position.y]
