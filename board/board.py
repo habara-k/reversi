@@ -5,6 +5,9 @@ from position.position import Position
 
 
 class IBoard:
+    """
+    ボードのインターフェース
+    """
     def put_stone(self, stone: Stone, position: Position):
         raise NotImplementedError()
 
@@ -21,10 +24,18 @@ class IBoard:
 
 class Board(IBoard):
     """
+    ボードの実装クラス
+
     Attributes:
     -----------
     data : List[List[Optional[Stone]]]
+        盤面を保持する2次元配列
     time : int
+        経過したターン
+    SIZE : int
+        盤面の大きさ
+    TIME_MAX : int
+        最大経過ターン
     """
 
     SIZE = 4
@@ -45,18 +56,36 @@ class Board(IBoard):
             self.data[x][y] = stone
 
     def show(self):
+        """
+        盤面を表示する
+        """
+        print("time:", self.time)
         mark = {None: ".", Stone.BLACK: "x", Stone.WHITE: "o"}
         for row in self.data:
             print("".join([mark[s] for s in row]))
         print()
 
     def pass_turn(self):
+        """
+        手番をパスする
+        置ける場所がないときに呼ぶ
+        """
         self.time += 1
 
-        print("time:", self.time)
         self.show()
 
     def put_stone(self, stone: Stone, position: Position):
+        """
+        石を置く
+        position に石が置けない場合はエラーを吐く
+
+        Parameters:
+        -----------
+        stone : Stone
+            置く石
+        position : Position
+            置く場所
+        """
         assert position is not None
         assert self.get_stone(position) is None
         assert self.time < self.TIME_MAX
@@ -70,10 +99,18 @@ class Board(IBoard):
 
         self.time += 1
 
-        print("time:", self.time)
         self.show()
 
     def finished(self) -> bool:
+        """
+        ゲームの終了を判定する
+
+        Returns:
+        --------
+        bool
+            経過したターンが最大経過ターンかどうか
+
+        """
         return self.time == self.TIME_MAX
 
     def get_winner_stone(self) -> Optional[Stone]:
@@ -95,6 +132,16 @@ class Board(IBoard):
     def get_available_positions(self, stone: Stone) -> List[Position]:
         """
         stone が置けるposition のListを返す
+
+        Parameters:
+        -----------
+        stone : Stone
+            置く石
+
+        Returns:
+        --------
+        available_positions : List[Position]
+            stone が置けるposition のList
         """
         available_positions: List[Position] = []
         for x in range(self.SIZE):
@@ -109,6 +156,19 @@ class Board(IBoard):
             -> List[Position]:
         """
         stone をposition に置いたときに挟める相手の石を返す
+
+        Parameters:
+        -----------
+        stone : Stone
+            置く石
+        position : Position
+            置く場所
+
+        Returns:
+        --------
+        reversible_positions : List[Position]
+            stone をposition に置いたときに挟める
+            相手の石があるPosition のList
         """
         if self.get_stone(position) is not None:
             return []
@@ -131,6 +191,22 @@ class Board(IBoard):
         """
         stone をposition に置いたとき,
         (dx, dy) の方向で挟める相手の石を返す
+
+        Parameters:
+        -----------
+        stone : Stone
+            置く石
+        position : Position
+            置く場所
+        dx : int
+        dy : int
+            挟む方向
+
+        Returns:
+        --------
+        reversible_positions : List[Position]
+            stone をposition に置いたとき
+            (dx, dy) の方向で挟める相手の石があるPosition のList
         """
         x: int = position.x + dx
         y: int = position.y + dy

@@ -1,5 +1,7 @@
 class Position:
     """
+    場所のクラス
+
     Attributes:
     -----------
     x : int

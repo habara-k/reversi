@@ -2,13 +2,20 @@ from enum import Enum
 
 
 class Stone(Enum):
+    """
+    石の列挙型
+    """
     BLACK = 1
     WHITE = 2
-    NONE = 3
 
     def opponent(self):
-        assert self != self.NONE
-        if self == self.BLACK:
-            return self.WHITE
-        else:
-            return self.BLACK
+        """
+        相手の石を返す
+
+        Returns:
+        --------
+        Stone
+            相手の石
+        """
+
+        return self.BLACK if self == self.WHITE else self.WHITE

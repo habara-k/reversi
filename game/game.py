@@ -7,16 +7,23 @@ from position.position import Position
 
 class Game:
     """
+    ゲームのクラス
+
     Attributes:
     -----------
     player_helper: PlayerHelper
+        プレイヤー
     board: Board
+        ボード
     """
     def __init__(self):
         self.player_helper: PlayerHelper = PlayerHelper()
         self.board: Board = Board()
 
     def start(self):
+        """
+        ゲームを開始する
+        """
         while True:
             position: Optional[Position] = self.player_helper.select(self.board)
             if position is not None:
