@@ -16,17 +16,8 @@ class Game:
 
     def start(self):
         while True:
-            self._play()
-            if self._finished():
+            position: Position = self.player_helper.select(self.board)
+            self.board.put_stone(self.player_helper, position)
+            if self.board.finished():
                 break
-            self._swap()
-
-    def _play(self):
-        position: Position = self.player_helper.select(self.board)
-        self.board.put_stone(self.player_helper, position)
-
-    def _finished(self) -> bool:
-        return self.board.finished()
-
-    def _swap(self):
-        self.player_helper.swap()
+            self.player_helper.swap()

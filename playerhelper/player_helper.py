@@ -1,3 +1,5 @@
+from typing import List
+
 from board.board import IBoard
 from position.position import Position
 from player.player import Player
