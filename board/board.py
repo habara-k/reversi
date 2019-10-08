@@ -11,8 +11,21 @@ class IBoard:
 
 
 class Board(IBoard):
+    """
+    Attributes:
+    -----------
+    data : List[List[Stone or None]]
+    """
+
+    SIZE = 4
+
+    def __init__(self):
+        self.data: List[List[Stone or None]] \
+                = [[None] * self.SIZE for i in range(self.SIZE)]
+
     def put_stone(self, stone: Stone, position: Position):
-        pass
+        assert self.data[position.x][position.y] is None
+        self.data[position.x][position.y] = stone
 
     def finished(self) -> bool:
         return True
