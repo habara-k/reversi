@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from stone.stone import Stone
 from position.position import Position
@@ -11,7 +11,7 @@ class IBoard:
     def finished(self):
         raise NotImplementedError()
 
-    def get_stone(self, position: Position) -> Stone:
+    def get_stone(self, position: Position) -> Optional[Stone]:
         raise NotImplementedError()
 
     def get_available_positions(self, stone: Stone) -> List[Position]:
@@ -23,7 +23,7 @@ class Board(IBoard):
     """
     Attributes:
     -----------
-    data : List[List[Stone]]
+    data : List[List[Optional[Stone]]]
     time : int
     """
 
@@ -32,8 +32,8 @@ class Board(IBoard):
 
     def __init__(self):
         self.time: int = 0
-        self.data: List[List[Stone]] = \
-            [[Stone.NONE] * self.SIZE for i in range(self.SIZE)]
+        self.data: List[List[Optional[Stone]]] = \
+            [[None] * self.SIZE for i in range(self.SIZE)]
 
         first_stones = [
                 [self.SIZE//2-1, self.SIZE//2-1, Stone.WHITE],
@@ -45,7 +45,7 @@ class Board(IBoard):
             self.data[x][y] = stone
 
     def put_stone(self, stone: Stone, position: Position):
-        assert self.get_stone(position) == Stone.NONE
+        assert self.get_stone(position) is None
         assert self.time < self.TIME_MAX
 
         reversible_positions = self._reversible_positions(stone, position)
@@ -60,7 +60,7 @@ class Board(IBoard):
     def finished(self) -> bool:
         return self.time == self.TIME_MAX
 
-    def get_stone(self, position: Position) -> Stone:
+    def get_stone(self, position: Position) -> Optional[Stone]:
         return self.data[position.x][position.y]
 
     def get_available_positions(self, stone: Stone) -> List[Position]:
@@ -81,7 +81,7 @@ class Board(IBoard):
         """
         stone をposition に置いたときに挟める相手の石を返す
         """
-        if self.get_stone(position) != Stone.NONE:
+        if self.get_stone(position) is not None:
             return []
 
         reversible_positions: List[Position] = []
@@ -107,7 +107,7 @@ class Board(IBoard):
         y: int = position.y + dy
 
         reversible_positions: List[Position] = []
-        finish_stone: Stone = Stone.NONE
+        finish_stone: Optional[Stone] = None
 
         while 0 <= x < self.SIZE and 0 <= y < self.SIZE:
             if self.data[x][y] != stone.opponent():

@@ -12,7 +12,6 @@ class TestBoard(unittest.TestCase):
     def test_init(self):
         SIZE = self.board.SIZE
         tests = [
-                [0,         0,         Stone.NONE],
                 [SIZE//2-1, SIZE//2-1, Stone.WHITE],
                 [SIZE//2,   SIZE//2,   Stone.WHITE],
                 [SIZE//2-1, SIZE//2,   Stone.BLACK],
@@ -40,7 +39,6 @@ class TestBoard(unittest.TestCase):
     def test_get_stone(self):
         SIZE = self.board.SIZE
         tests = [
-                [0,         0,         Stone.NONE],
                 [SIZE//2-1, SIZE//2-1, Stone.WHITE],
                 [SIZE//2,   SIZE//2,   Stone.WHITE],
                 [SIZE//2-1, SIZE//2,   Stone.BLACK],
