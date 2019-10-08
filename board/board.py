@@ -11,6 +11,13 @@ class IBoard:
     def finished(self):
         raise NotImplementedError()
 
+    def get_stone(self, position: Position) -> Stone:
+        raise NotImplementedError()
+
+    def get_available_positions(self, stone: Stone) -> List[Position]:
+        raise NotImplementedError()
+
+
 
 class Board(IBoard):
     """
@@ -69,12 +76,13 @@ class Board(IBoard):
 
         return available_positions
 
-    def _reversible_positions(self, stone: Stone, position: Position) -> bool:
+    def _reversible_positions(self, stone: Stone, position: Position) \
+            -> List[Position]:
         """
         stone をposition に置いたときに挟める相手の石を返す
         """
         if self.get_stone(position) != Stone.NONE:
-            return False
+            return []
 
         reversible_positions: List[Position] = []
 
@@ -90,7 +98,7 @@ class Board(IBoard):
 
     def _reversible_positions_on_direction(
             self, stone: Stone, position: Position,
-            dx: int, dy: int) -> bool:
+            dx: int, dy: int) -> List[Position]:
         """
         stone をposition に置いたとき,
         (dx, dy) の方向で挟める相手の石を返す

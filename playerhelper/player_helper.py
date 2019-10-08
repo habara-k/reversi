@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from board.board import IBoard
 from position.position import Position
@@ -17,8 +17,8 @@ class PlayerHelper:
         self.players: List[Player] = [Player(Stone.BLACK), Player(Stone.WHITE)]
         self.player: Player = self.players[0]
 
-    def select(self, board: IBoard) -> Position:
-        return Position(0, 0)
+    def select(self, board: IBoard) -> Optional[Position]:
+        return self.player.select(board)
 
     def stone(self) -> Stone:
         return self.player.stone
